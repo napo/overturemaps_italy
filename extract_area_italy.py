@@ -49,7 +49,4 @@ COPY (
 
 
 # In[7]:
-
-
 duckdb.sql(sql)
-

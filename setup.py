@@ -4,4 +4,4 @@ import duckdb
 import os
 
 italy = gpd.read_parquet("data" + os.sep + "italy.parquet")
-italy.bounds
+printitaly.bounds
