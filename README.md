@@ -1,8 +1,8 @@
 # overturemaps italy
-On this page you will find the links to the data extraction of the first release of OvertureMaps Foundation and all the scripts needed to replicate the operation.
-The data version is [Release Overture 2023-07-26-alpha.0](https://overturemaps.org/download/)
-The license for buildings is ODbL, while for places it is CDLA-Permissive 2.0
-The data is enriched with ISTAT ids and released in geopackage format.
+On this page you will find the links to the data extraction of the first release of OvertureMaps Foundation and all the scripts needed to replicate the operation.<br/>
+The data version is [Release Overture 2023-07-26-alpha.0](https://overturemaps.org/download/).<br/>
+The license for buildings is ODbL, while for places it is CDLA-Permissive 2.0.<br/>
+The data is enriched with ISTAT ids and released in geopackage format.<br/>
 In this repository there is also the dataset of the non-generalized Italian municipal borders at 2023 of ISTAT (CC-BY license) in geoparquet format.
 
 ### prerequisites
