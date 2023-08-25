@@ -87,3 +87,14 @@ duckdb omf_italy -c ".read 01_extraction_places_italy.sql"
 duckdb omf_italy -c ".read 02_extraction_buildings_italy.sql"
 ```
 
+#### assign the SRS to each file
+```bash
+for i in `ls *.gpkg`;
+  do
+    name=`basename $i .gpkg`;
+    tmpname=`echo $name`_tmp.gpkg;
+    ogr2ogr -a_srs EPSG:4326 -f "GPKG" $tmpname $i;
+    mv $tmpname $i;
+done
+```
+
