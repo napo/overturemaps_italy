@@ -129,7 +129,7 @@ do
 	d="$url$buildingslbl$r$gpkglbl"
 	wget $d
 	duckdb -c "load spatial;CREATE TABLE $buildingslbl$r as select * from st_read('$buildingslbl$r$gpkglbl', layer='$r');ALTER TABLE $buildingslbl$r  RENAME geom TO geometry;COPY  (SELECT * FROM $buildingslbl$r ) TO 'tmp.parquet' (FORMAT PARQUET, CODEC 'ZSTD');"
-	rm $placeslbl$r$gpkglbl
+	rm $buildingslbl$r$gpkglbl
 	./gpq convert tmp.parquet $buildingslbl$r$parquetlbl
 	rm tmp.parquet
 done;
