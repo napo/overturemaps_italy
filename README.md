@@ -75,10 +75,12 @@ all data is incorporated into a duckdb file on which the following SQL operation
 
 ### execution
 #### prepare data
+bash script
 ```bash
 duckdb omf_italy -c ".read 00_prepare_tables_istat.sql"
 ```
 #### create geopackages of the places for earch region of Italy
+bash script
 ```bash
 duckdb omf_italy -c ".read 01_extraction_places_italy.sql"
 ```
@@ -88,6 +90,7 @@ duckdb omf_italy -c ".read 02_extraction_buildings_italy.sql"
 ```
 
 #### assign the SRS to each file
+bash script
 ```bash
 for i in `ls *.gpkg`;
   do
@@ -100,3 +103,31 @@ for i in `ls *.gpkg`;
 done
 ```
 
+#### creation of geoparquet files
+bash script
+```bash
+wget https://github.com/planetlabs/gpq/releases/download/v0.11.0/gpq-linux-amd64.tar.gz
+tar xfvz gpq-linux-amd64.tar.gz 
+chmod 755 gpq
+regions="abruzzo basilicata calabria campania emiliaromagna friuliveneziagiulia lazio liguria lombardia marche molise piemonte puglia sardegna sicilia toscana trentinoaltoadige umbria valledaosta veneto"
+url="https://s3.eu-central-1.amazonaws.com/overturemaps.italy/"
+placeslbl="places_"
+gpkglbl=".gpkg"
+parquetlbl=".parquet"
+buildingslbl="buildings"
+for r in $regions 
+do
+	d="$url$placeslbl$r$gpkglbl"
+	wget $d
+	duckdb -c "load spatial;CREATE TABLE $placeslbl$r as select * from st_read('$placeslbl$r$gpkglbl', layer='$placeslbl$r');ALTER TABLE $placeslbl$r  RENAME geom TO geometry;COPY  (SELECT * FROM $placeslbl$r ) TO 'tmp.parquet' (FORMAT PARQUET, CODEC 'ZSTD');"
+	rm $placeslbl$r$gpkglbl
+	./gpq convert tmp.parquet $placeslbl$r$parquetlbl
+done;
+do
+	d="$url$buildingslbl$r$gpkglbl"
+	wget $d
+	duckdb -c "load spatial;CREATE TABLE $buildingslbl$r as select * from st_read('$buildingslbl$r$gpkglbl', layer='$r');ALTER TABLE $buildingslbl$r  RENAME geom TO geometry;COPY  (SELECT * FROM $buildingslbl$r ) TO 'tmp.parquet' (FORMAT PARQUET, CODEC 'ZSTD');"
+	rm $placeslbl$r$gpkglbl
+	./gpq convert tmp.parquet $buildingslbl$r$parquetlbl
+done;
+```
