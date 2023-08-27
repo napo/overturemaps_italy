@@ -114,7 +114,7 @@ url="https://s3.eu-central-1.amazonaws.com/overturemaps.italy/"
 placeslbl="places_"
 gpkglbl=".gpkg"
 parquetlbl=".parquet"
-buildingslbl="buildings"
+buildingslbl="buildings_"
 for r in $regions 
 do
 	d="$url$placeslbl$r$gpkglbl"
