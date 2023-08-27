@@ -122,6 +122,7 @@ do
 	duckdb -c "load spatial;CREATE TABLE $placeslbl$r as select * from st_read('$placeslbl$r$gpkglbl', layer='$placeslbl$r');ALTER TABLE $placeslbl$r  RENAME geom TO geometry;COPY  (SELECT * FROM $placeslbl$r ) TO 'tmp.parquet' (FORMAT PARQUET, CODEC 'ZSTD');"
 	rm $placeslbl$r$gpkglbl
 	./gpq convert tmp.parquet $placeslbl$r$parquetlbl
+	rm tmp.parquet
 done;
 do
 	d="$url$buildingslbl$r$gpkglbl"
@@ -129,5 +130,6 @@ do
 	duckdb -c "load spatial;CREATE TABLE $buildingslbl$r as select * from st_read('$buildingslbl$r$gpkglbl', layer='$r');ALTER TABLE $buildingslbl$r  RENAME geom TO geometry;COPY  (SELECT * FROM $buildingslbl$r ) TO 'tmp.parquet' (FORMAT PARQUET, CODEC 'ZSTD');"
 	rm $placeslbl$r$gpkglbl
 	./gpq convert tmp.parquet $buildingslbl$r$parquetlbl
+	rm tmp.parquet
 done;
 ```
