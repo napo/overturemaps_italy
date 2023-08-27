@@ -124,6 +124,7 @@ do
 	./gpq convert tmp.parquet $placeslbl$r$parquetlbl
 	rm tmp.parquet
 done;
+for r in $regions 
 do
 	d="$url$buildingslbl$r$gpkglbl"
 	wget $d
